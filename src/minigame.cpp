@@ -45,18 +45,19 @@ bool Minigame::countdown(int col, int row)
                 printAt(midcol_timer, 2, timer);
 
                 bar = "";
-                for (int j = 0; j < duration; j++)
+                for (int j = 0; j <= duration-i; j++) 
                 {
-                        if (j > i)
+                        if (j == duration -i)
                         {
-                                bar += bar_symbol;
+                                break;
                         }
                         else
                         {
-                                bar += "  ";
+                                bar += bar_symbol + " ";
                         }
                 }
                 printAt(midcol_bar, 1, bar);
+                
 
                 this_thread::sleep_for(chrono::seconds(1));
 
@@ -66,6 +67,7 @@ bool Minigame::countdown(int col, int row)
                         return true;
                         break;
                 }
+                printAt(midcol_bar, 1, "           ");
         }
 
         if (time_out==true) 
@@ -145,6 +147,7 @@ bool Minigame::direction()
                 char input = getch();
                 if (input != answer[i])
                 { // if user's input is wrong //
+                        stopCountdown = true;
                         string quote = "         Oops! Wrong input :(         ";
                         int midcol_quote = (col - quote.size()) / 2;
                         printAt(midcol_quote, midrow + 4, quote);
@@ -248,4 +251,31 @@ string bubble = "follow my steps!"
               /  |   |  |         |  |  |  |       '""   |  |      |`\  |
              "---"  /___|        /___|  /__|             /__|     /__/__|
                     '"""         '"""  '"""              '"""    '"""'""
+*/
+
+/* 
+                      /^--^\     /^--^\     /^--^\
+                      \____/     \____/     \____/
+                     /      \   /      \   /      \
+KAT                 |        | |        | |        |
+                     \__  __/   \__  __/   \__  __/
+|^|^|^|^|^|^|^|^|^|^|^|^\ \^|^|^|^/ /^|^|^|^|^\ \^|^|^|^|^|^|^|^|^|^|^|^|
+| | | | | | | | | | | | |\ \| | |/ /| | | | | | \ \ | | | | | | | | | | |
+########################/ /######\ \###########/ /#######################
+| | | | | | | | | | | | \/| | | | \/| | | | | |\/ | | | | | | | | | | | |
+|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|
+*/
+
+/*
+  ,-.       _,---._ __  / \
+ /  )    .-'       `./ /   \
+(  (   ,'            `/    /|
+ \  `-"             \'\   / |
+  `.              ,  \ \ /  |
+   /`.          ,'-`----Y   |
+  (            ;        |   '
+  |  ,-.    ,-'         |  /
+  |  | (   |        hjw | /
+  )  |  \  `.___________|/
+  `--'   `--'
 */

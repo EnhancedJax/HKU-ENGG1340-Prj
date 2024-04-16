@@ -72,6 +72,8 @@ bool Minigame::countdown(int col, int row)
 
         if (time_out==true) 
         {
+                stop_direction = true;
+
                 string quote = "   Oops! Time's out   ";
                 int midcol_quote = (col - quote.size()) / 2;
                 printAt(midcol_quote, 1, quote);
@@ -145,7 +147,7 @@ bool Minigame::direction()
         for (int i = 0; i < 6; i++)
         { // check user's answer one by one //
                 char input = getch();
-                if (input != answer[i])
+                if (input != answer[i] && stop_direction == false)
                 { // if user's input is wrong //
                         stopCountdown = true;
                         string quote = "         Oops! Wrong input :(         ";
@@ -154,7 +156,7 @@ bool Minigame::direction()
                         this_thread::sleep_for(chrono::seconds(1));
                         return false;
                 }
-                else if (input == answer[i])
+                else if (input == answer[i] && stop_direction == false)
                 { // if user's input is correct //
                         output[i] = "✔";
                         printAt(midcol, midrow, "╭───╮  ╭───╮  ╭───╮  ╭───╮  ╭───╮  ╭───╮");

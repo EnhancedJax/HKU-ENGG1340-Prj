@@ -9,6 +9,7 @@ public:
     bool run();
     bool countdown(int winCols, int winRows);
     bool stopCountdown=false;
+    bool stop_direction=false;
     bool direction();
 };
 

@@ -31,10 +31,10 @@ bool Minigame::countdown(int col, int row)
         int midcol_timer = (col - 6) / 2;
         int midcol_bar = (col - 11) / 2;
 
-        for (int i = 0; i <= 4; i++)
+        for (int i = 0; i <= 4; i++) 
         {
 
-                if (duration - i >= 4)
+                if (duration - i > 9)
                 {
                         timer = "> " + to_string(duration - i) + " <";
                 }

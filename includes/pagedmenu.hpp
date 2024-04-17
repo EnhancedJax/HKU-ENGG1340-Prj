@@ -7,6 +7,7 @@ public:
     PagedMenu(); //TODO: Update
     ~PagedMenu();
     int displayMenu();
+    void WinningScreen();
 };
 
 #endif 

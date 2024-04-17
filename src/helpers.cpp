@@ -152,16 +152,18 @@ int getWinCols()
 /*
     build a UI frame based on the size of console
 */
-void frame(int winCols, int winRows)
+void frame(int winCols, int winRows) // input current size of console 
 {
-
+    // print the top of the UI frame
     cout << "╔";
     for (int i = 0; i < winCols - 2; i++)
     {
         cout << "═";
     }
     cout << "╗" << endl;
+    //
 
+    // print the UI pillars of two sides 
     for (int i = 1; i < winRows - 2; i++)
     {
         cout << "║";
@@ -171,16 +173,19 @@ void frame(int winCols, int winRows)
         }
         cout << "║" << endl;
     }
+    //
 
+    // print the bottom of the UI frame
     cout << "╚";
     for (int i = 0; i < winCols - 2; i++)
     {
         cout << "═";
     }
     cout << "╝" << endl;
+    //
 }
 /*
-    build a thin frame for the word inputed(used only for the menu "play" and "quit" botton)(not suitable for all words)
+    build a thin frame for the word inputed (used only for the menu botton) (only suitable for words in 4)
 */
 void botton(int x, int y, string colors, string s)
 {
@@ -192,4 +197,12 @@ void botton(int x, int y, string colors, string s)
     printAt(x - 2, y, colors + mid);
     printAt(x, y, colors + s);
     printAt(x - 2, y + 1, colors + bot);
+}
+
+    /*
+    Example:
+            ╭──────╮
+            │ PLAY │
+            ╰──────╯
+    */
 }

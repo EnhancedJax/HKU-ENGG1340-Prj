@@ -73,6 +73,19 @@ void Timer::job()
 }
 
 Gameloop::Gameloop()
+/**
+ * lookup: to find the direction of the player movement
+ *      w = move upward with one row ;
+ *      a = move left with one col;
+ *      s = move downward with one row;
+ *      d = move right with one col;
+
+ * effect: do the animation while breaking the wall
+ *      w = effect of "||" while breaking upward;
+ *      a = effect of "--" while breaking left;
+ *      s = effect of "||" while breaking downward;
+ *      d = effect of "--" while breaking right;
+*/
 {
     // lookup: the allowed player movement
     lookup = {
@@ -93,25 +106,39 @@ Gameloop::Gameloop()
 Gameloop::~Gameloop()
 {
 }
-// intersection: allow the player to move more smoothly and stop when they arrive the intersection
+
+
 bool Gameloop::intersection(int pos_x, int pos_y, int **themap, bool the_first_move)
+/**
+ * intersection: used to check whether there are road [0] around the user location
+ *      if there is/are [0] around the location 
+ *      counting [num] + 1;
+ *      if the num >= 2 return 0 
+*/
 {
     int num = 0;
-    if (themap[pos_y + 1][pos_x] == 0)
+    if (themap[pos_y + 1][pos_x] == 0) // player downward is wall or not
         num++;
-    if (themap[pos_y - 1][pos_x] == 0)
+    if (themap[pos_y - 1][pos_x] == 0) // player left is wall or not
         num++;
-    if (themap[pos_y][pos_x + 1] == 0)
+    if (themap[pos_y][pos_x + 1] == 0) // player right is wall or not
         num++;
-    if (themap[pos_y][pos_x - 1] == 0)
+    if (themap[pos_y][pos_x - 1] == 0) // player upward is wall or not
         num++;
 
-    if (num <= 1 && the_first_move == false)
+    if (num <= 1 && the_first_move == false) // if the player is not the first move and there is a intersection
         return 0;
     return 1;
 }
-// checkwall: allow the player to knowing the wall they going to break down / and showing that with "detector"
+
+
 vector<int> Gameloop::checkwall(char playerinput, int *pos, int **themap, int width, int height, string detector)
+/**
+ * checkwall : allow the player to knowing the wall they going to break down / and showing that with "detector"
+ *      resolvelist : list all the wall which gonna to break;
+ *      the block which will break will show in red
+ *      the maximum number of block gonna to break is 6
+*/
 {
 
     // save the wall data into the list that allow the player to change their idea
@@ -125,17 +152,20 @@ vector<int> Gameloop::checkwall(char playerinput, int *pos, int **themap, int wi
             if (pos[1] + i * lookup[playerinput][0] != 0 && pos[0] + i * lookup[playerinput][1] != 0 && pos[1] + i * lookup[playerinput][0] != width - 1 && pos[0] + i * lookup[playerinput][1] != height - 1)
             {
                 this_thread::sleep_for(chrono::milliseconds(1));
+                    // adding the block gonna to break into the list "resolvelist"
                 resolvelist.push_back(themap[pos[0] + i * lookup[playerinput][1]][pos[1] + i * lookup[playerinput][0]]);
-                // print the wall which the player going to break down with the "detector"
+                    // print the wall which the player going to break down with the "detector"
                 printAt(2 * (pos[1] + i * lookup[playerinput][0]), pos[0] + i * lookup[playerinput][1], detector);
             }
             else if (pos[1] + i * lookup[playerinput][0] == 0 || pos[0] + i * lookup[playerinput][1] == 0 || pos[1] + i * lookup[playerinput][0] == width - 1 || pos[0] + i * lookup[playerinput][1] == height - 1)
-            {
+            { 
+                    // prevent break over the map
                 return resolvelist;
             }
         }
         else
-        {
+        {   
+            // prevent break the goal
             return resolvelist;
         }
     }
@@ -145,17 +175,17 @@ vector<int> Gameloop::checkwall(char playerinput, int *pos, int **themap, int wi
 int Gameloop::run(State loadedGameState)
 {
 
-    int winCols = getWinCols();
-    int winRows = getWinRows();
-    bool the_first_move;     // check if player had moved since key pressed
-    bool choice;             // check if player had choosen the direction of breaking wall
-    bool is_writing = false; // check if the screen is writing
+    int winCols = getWinCols(); // size of window cols 
+    int winRows = getWinRows(); // size of window rows
+    bool the_first_move;        // check if player had moved since key pressed
+    bool choice;                // check if player had choosen the direction of breaking wall
+    bool is_writing = false;    // check if the screen is writing
 
     srand(time(NULL)); // Seed the random number generator with the current time
 
-    Maze2D maze(winCols / 2 - 2, (winRows % 2 == 0 ? winRows + 1 : winRows) - 2, rand(), loadedGameState.Map2D);
-    Timer timer(&is_writing, 0, winCols / 2 - 7, stod(loadedGameState.timerPausedTime));
-    gameState = loadedGameState;
+    Maze2D maze(winCols / 2 - 2, (winRows % 2 == 0 ? winRows + 1 : winRows) - 2, rand(), loadedGameState.Map2D); // making the maze
+    Timer timer(&is_writing, 0, winCols / 2 - 7, stod(loadedGameState.timerPausedTime));                         // create a timer for counting
+    gameState = loadedGameState; 
     clearScreen();
     maze.printMap();
 
@@ -169,18 +199,20 @@ int Gameloop::run(State loadedGameState)
 
         if (input == 'q')
         {
-            timer.stop();
+            // player quit the game
+            timer.stop(); 
             clearScreen();
             return 3;
         } else if (input == 'p')
         {
-            gameState.timerPausedTime = timer.stop();
-            gameState.Map2D = maze.map2D;
-            gameState.mapHeight = maze.result_height;
-            gameState.mapWidth = maze.result_width;
-            gameState.winCols = winCols;
-            gameState.winRows = winRows;
-            string savedTo = loader.saveStateToFile(gameState);
+            // plater stopped the game
+            gameState.timerPausedTime = timer.stop();              // timer stopped
+            gameState.Map2D = maze.map2D;                          // map saved
+            gameState.mapHeight = maze.result_height;              // map height
+            gameState.mapWidth = maze.result_width;                // map width
+            gameState.winCols = winCols;                           // the terminal window column
+            gameState.winRows = winRows;                           // the terminal window row
+            string savedTo = loader.saveStateToFile(gameState);    
             clearScreen();
             frame(winCols, winRows);
             string m = "Game saved to " + savedTo + ". Press any key to continue.";
@@ -189,12 +221,14 @@ int Gameloop::run(State loadedGameState)
             return 2;
         } else if ( input != 'w' && input != 'a' && input != 's' && input != 'd' )
         {
+            // prevent the miss clicking while playing the maze
             continue;
         }
 
         while (intersection(gameState.position[1], gameState.position[0], maze.map2D, the_first_move))
         {
-            the_first_move = false;
+            the_first_move = false;     // after the first move , the_first_move become false
+
             // player movement: only stop when there is intersection or wall
             if (maze.map2D[gameState.position[0] + lookup[input][1]][gameState.position[1] + lookup[input][0]] != 0)
             {
@@ -220,18 +254,26 @@ int Gameloop::run(State loadedGameState)
                 // start the minigame when the player arrive to the "function"
                 if (maze.map2D[gameState.position[0]][gameState.position[1]] == 3)
                 {
+                    // letting the player to arrive the "function" [ for smoothless ]
                     is_writing = true;
                     this_thread::sleep_for(chrono::milliseconds(1));
                     printAt(2 * gameState.position[1], gameState.position[0], maze.glyphs[9]); // change the player location
                     maze.editMap(gameState.position[0], gameState.position[1], 9);
                     is_writing = false;
+
                     // get into the game
-                    timer.pause();
+                    timer.pause();  //  stop the timer while playing minigame
+                    clearScreen();  //  clear the screen for printing the minigame
+                    int minigame_result = Minigame().run();  // recall the minigame function 
+                    // end the game 
+
+                    // bring back the maze
                     clearScreen();
-                    int minigame_result = Minigame().run();
-                    clearScreen();
+                    is_writing = true;
                     maze.printMap();
-                    if (minigame_result == 1) 
+                    is_writing = false;
+
+                    if (minigame_result == 1)   // check the player win the minigame or not
                     {
                         // win can get ability to break the wall
                         char playerinput = getch(); // the direction of breaking
@@ -242,9 +284,9 @@ int Gameloop::run(State loadedGameState)
                             // showing the wall going to break
                             resolvelist = checkwall(playerinput, gameState.position, maze.map2D, maze.result_width, maze.result_height, maze.glyphs[5]);
                             is_writing = false;
-                            // confirm the break
-                            char playerinput2 = playerinput;
-                            playerinput = getch();
+                            
+                            char playerinput2 = playerinput; 
+                            playerinput = getch();      // player second input to confirm
 
                             if (playerinput == playerinput2)
                             {
@@ -256,12 +298,11 @@ int Gameloop::run(State loadedGameState)
                                     {
                                         if (gameState.position[1] + i * lookup[playerinput][0] != 0 && gameState.position[0] + i * lookup[playerinput][1] != 0 && gameState.position[1] + i * lookup[playerinput][0] != maze.result_width - 1 && gameState.position[0] + i * lookup[playerinput][1] != maze.result_height - 1)
                                         {
-                                            is_writing = true;
+                                            is_writing = true; 
+                                            printAt(2 * (gameState.position[1] + i * lookup[playerinput][0]), gameState.position[0] + i * lookup[playerinput][1], effect[playerinput]); // effect of breaking wall
                                             this_thread::sleep_for(chrono::milliseconds(50));
-                                            printAt(2 * (gameState.position[1] + i * lookup[playerinput][0]), gameState.position[0] + i * lookup[playerinput][1], effect[playerinput]); // change the moved space
-
-                                            printAt(2 * (gameState.position[1] + i * lookup[playerinput][0]), gameState.position[0] + i * lookup[playerinput][1], maze.glyphs[1]); // change the moved space
-                                            maze.editMap(gameState.position[0] + i * lookup[playerinput][1], gameState.position[1] + i * lookup[playerinput][0], 1);               // edit the map
+                                            printAt(2 * (gameState.position[1] + i * lookup[playerinput][0]), gameState.position[0] + i * lookup[playerinput][1], maze.glyphs[1]);      // change the moved space
+                                            maze.editMap(gameState.position[0] + i * lookup[playerinput][1], gameState.position[1] + i * lookup[playerinput][0], 1);                    // edit the map
                                             is_writing = false;
                                         }
                                         else if (gameState.position[1] + i * lookup[playerinput][0] == 0 || gameState.position[0] + i * lookup[playerinput][1] == 0 || gameState.position[1] + i * lookup[playerinput][0] == maze.result_width - 1 || gameState.position[0] + i * lookup[playerinput][1] == maze.result_height - 1)
@@ -278,9 +319,10 @@ int Gameloop::run(State loadedGameState)
                             else if (playerinput != playerinput2)
                             {
                                 for (int i = 1; i <= resolvelist.size(); i++)
-                                { //
+                                { 
+                                    // refresh the map again
                                     is_writing = true;
-                                    this_thread::sleep_for(chrono::milliseconds(1)); 
+                                    this_thread::sleep_for(chrono::milliseconds(1));
                                     printAt(2 * (gameState.position[1] + i * lookup[playerinput2][0]), gameState.position[0] + i * lookup[playerinput2][1], maze.glyphs[resolvelist[i - 1]]);
                                     is_writing = false;
                                 }

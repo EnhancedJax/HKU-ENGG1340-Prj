@@ -116,23 +116,23 @@ bool Minigame::direction()
 
                 if (arrows[arr[i]] == "▲")
                 {
-                        answer[i] = letter1;
+                        answer[i] = letter1;            // translate "▲" symbol to be 'w' for player input
                 }
                 else if (arrows[arr[i]] == "▼")
                 {
-                        answer[i] = letter2;
+                        answer[i] = letter2;            // translate "▼" symbol to be 'a' for player input
                 }
                 else if (arrows[arr[i]] == "◀")
                 {
-                        answer[i] = letter3;
+                        answer[i] = letter3;            // translate "◀" symbol to be 's' for player input
                 }
                 else if (arrows[arr[i]] == "▶")
                 {
-                        answer[i] = letter4;
+                        answer[i] = letter4;            // translate "▶" symbol to be 'd' for player input
                 }
                 else
                 {
-                        printAt(3, 3, "wrong");
+                        printAt(3, 3, "wrong");         // a prvention for possible error
                 }
         }
 
@@ -155,7 +155,7 @@ bool Minigame::direction()
                 if (input != answer[i] && stop_direction == false)
                 { // if user's input is wrong //
                         stopCountdown = true;
-                        output[i] = "✘";
+                        output[i] = "✘";               // replace current box with a "✘" to tell player of wrong input 
                         printAt(midcol, midrow, "╭───╮  ╭───╮  ╭───╮  ╭───╮  ╭───╮  ╭───╮");
                         printAt(midcol, midrow + 1, "│ " + output[0] + " │  │ " + output[1] + " │  │ " + output[2] + " │  │ " + output[3] + " │  │ " + output[4] + " │  │ " + output[5] + " │");
                         printAt(midcol, midrow + 2, "╰───╯  ╰───╯  ╰───╯  ╰───╯  ╰───╯  ╰───╯");
@@ -164,11 +164,11 @@ bool Minigame::direction()
                 }
                 else if (input == answer[i] && stop_direction == false)
                 { // if user's input is correct //
-                        output[i] = "✔";
+                        output[i] = "✔";               // replace current box with a "✔" to tell player of correct input
                         printAt(midcol, midrow, "╭───╮  ╭───╮  ╭───╮  ╭───╮  ╭───╮  ╭───╮");
                         printAt(midcol, midrow + 1, "│ " + output[0] + " │  │ " + output[1] + " │  │ " + output[2] + " │  │ " + output[3] + " │  │ " + output[4] + " │  │ " + output[5] + " │");
                         printAt(midcol, midrow + 2, "╰───╯  ╰───╯  ╰───╯  ╰───╯  ╰───╯  ╰───╯");
-                        if (i == 5)
+                        if (i == 5)     // when player gets correct in a row for 6 times , they win this minigame
                         {
                                 stopCountdown = true;
                                 return true;
@@ -183,10 +183,10 @@ bool Minigame::direction()
 
 bool Minigame::run()
 {
-        int winCols = getWinCols();
-        int winRows = getWinRows();
+        int winCols = getWinCols();  // size of window cols 
+        int winRows = getWinRows();  // size of window rows
 
-        frame(winCols, winRows);
+        frame(winCols, winRows);     // print a UI frame
 
         bool result;
 

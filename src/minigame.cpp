@@ -142,15 +142,12 @@ bool Minigame::direction()
         { // check user's answer one by one //   
                 char input = getch_emptyinput();
                 
-                if (input != '\0') 
-                {
-                        continue;
-                } else if (input == '\0')
+                if (input == '\0') 
                 {
                         stop_direction=true;
                         return false;
-                }
 
+                }
 
                 if (input != answer[i] && stop_direction == false)
                 { // if user's input is wrong //

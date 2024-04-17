@@ -36,7 +36,7 @@ Gameplay demo [here](https://connecthkuhk-my.sharepoint.com/:v:/g/personal/enhan
 | Save & load              | File input/output (e.g., for loading/saving game status)                       |
 | Yep                      | Program codes in multiple files (recall separate compilation)                  |
 | Sure                     | Proper indentation and naming styles                                           |
-| Of course                | In-code documentation                                                          |
+| Doxygen-like commenting styles for functions, and inline comments for small explanations                | In-code documentation                                                          |
 
 ## Compilation and running instructions
 

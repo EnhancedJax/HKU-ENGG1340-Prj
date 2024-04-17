@@ -13,7 +13,7 @@ int main()
     // check terminal size
     int winCols = getWinCols();
     int winRows = getWinRows();
-    int splashSpeed = 100;
+
     if (winRows < 20 || winCols < 95)
     {
         cout << "Terminal size too small. Please resize." << endl;
@@ -33,8 +33,8 @@ int main()
     while (true)
     {
         PagedMenu menu; // Linkage with pagedmenu setting requried
-        int response = menu.displayMenu();
-        clearScreen();
+        int response = menu.displayMenu(); // display the menu and getting player choice with the integer returned
+        clearScreen();  // clear the screen for the next screen to show properly
         if (response == 2) // System mechanism for handling user's input
         {
             return 1; // Quit the game

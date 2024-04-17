@@ -14,9 +14,11 @@ int main()
     int winCols = getWinCols();
     int winRows = getWinRows();
     int splashSpeed = 100;
-    if (winRows < 20 || winCols < 70)
+    if (winRows < 20 || winCols < 95)
     {
-        cout << "Terminal size too small. Please resize to at least WxH: 70x20." << endl;
+        cout << "Terminal size too small. Please resize." << endl;
+        cout << "Minimum size: 95x20" << endl;
+        cout << "Current size: " << winCols << "x" << winRows << endl;
         return 1;
     }
 

@@ -1,3 +1,15 @@
+/**
+ * @file maze2D.cpp
+ * @brief Implementation file for the Maze2D class.
+ * 
+ * This file contains the implementation of the Maze2D class, which represents a 2D maze.
+ * The class provides methods for generating and printing the maze, as well as editing the maze map.
+ * It also includes a destructor to clean up dynamically allocated memory.
+ * 
+ * Attribution: https://github.com/138paulmiller/PyMaze/tree/master
+ * Sampled logic for maze generation (only) and converted to C++ for use.
+ */
+
 #include "maze2D.hpp"
 #include "disjoint.hpp"
 #include "colors.hpp"
@@ -12,14 +24,29 @@
 using namespace std;
 
 /* ----------- Constructor ---------- */
+
+/**
+ * @brief Constructs a Maze2D object with the specified width, height, seed, and map.
+ * 
+ * This constructor initializes the Maze2D object with the given width, height, seed, and map.
+ * If a map is not provided, it generates a new maze using the Kruskal's algorithm.
+ * The constructor also sets up the glyphs for different elements in the maze.
+ * 
+ * @param theWidth The width of the maze.
+ * @param theHeight The height of the maze.
+ * @param theSeed The seed for the random number generator.
+ * @param theMap2D The 2D map of the maze (optional).
+ */
 Maze2D::Maze2D(int theWidth, int theHeight, int theSeed, int **theMap2D = nullptr)
 {
-    width = theWidth / 2; // divide by 4 as each cell has 2 chars, and the alogrithm takes in half the dimension
+    // Initialize member variables
+    width = theWidth / 2;
     height = theHeight / 2;
     seed = theSeed;
     result_width = (theWidth % 2 == 0 ? theWidth + 1 : theWidth);
     result_height = theHeight;
 
+    // Set up glyphs for different elements in the maze
     glyphs = {
         {9, COLOR_BLUE + "██" + COLOR_DEFAULT},                            // player
         {8, COLOR_BRIGHT_GARY + "██" + COLOR_DEFAULT},                     // tail
@@ -30,7 +57,7 @@ Maze2D::Maze2D(int theWidth, int theHeight, int theSeed, int **theMap2D = nullpt
         {5, COLOR_RED + "██"},
     };
 
-    // if the map is provided, use it
+    // If the map is provided, use it
     if (theMap2D != nullptr)
     {
         isMapProvided = true;
@@ -38,7 +65,7 @@ Maze2D::Maze2D(int theWidth, int theHeight, int theSeed, int **theMap2D = nullpt
     }
     else
     {
-        // create the 2D array for the MST algorithm
+        // Create the 2D array for the MST algorithm
         grid2D = new int *[height];
         for (int i = 0; i < height; i++)
         {
@@ -60,12 +87,19 @@ Maze2D::Maze2D(int theWidth, int theHeight, int theSeed, int **theMap2D = nullpt
             map2D[i] = new int[result_width];
         }
 
+        // Generate the maze using Kruskal's algorithm
         kruskalize();
         generateMaze();
     }
 }
 
 /* -------------- Utils ------------- */
+
+/**
+ * @brief Prints the map of the maze.
+ * 
+ * This method prints the map of the maze to the console.
+ */
 void Maze2D::printMap()
 {
     for (int r = 0; r < result_height; ++r)
@@ -73,17 +107,30 @@ void Maze2D::printMap()
         for (int c = 0; c < result_width; ++c)
         {
             cout << glyphs[map2D[r][c]];
-            // cout << map2D[r][c];
         }
         cout << endl;
     }
 }
 
+/**
+ * @brief Edits the map of the maze at the specified position.
+ * 
+ * This method allows editing the map of the maze at the specified row and column position.
+ * 
+ * @param r The row position.
+ * @param c The column position.
+ * @param value The new value to be set at the specified position.
+ */
 void Maze2D::editMap(int r, int c, int value)
 {
     map2D[r][c] = value;
 }
 
+/**
+ * @brief Prints the transfers between cells in the maze.
+ * 
+ * This method prints the transfers between cells in the maze to the console.
+ */
 void Maze2D::printTransfers()
 {
     for (auto const &x : transfers)
@@ -98,6 +145,12 @@ void Maze2D::printTransfers()
 }
 
 /* ----------- Destructor ----------- */
+
+/**
+ * @brief Destructor for the Maze2D object.
+ * 
+ * This destructor cleans up dynamically allocated memory for the maze map and grid.
+ */
 Maze2D::~Maze2D()
 {
     for (int c = 0; c < height; ++c)
@@ -117,13 +170,15 @@ Maze2D::~Maze2D()
 
 /* ----------- Generators ----------- */
 
+/**
+ * @brief Generates the maze.
+ * 
+ * This method generates the maze by translating the generated "transfers" into a 2D array.
+ * It loops through the grid and transfers, creating 2 rows based on the data in those variables per iteration of the loop.
+ * It also assigns random end points and minigame portals to the 2D array.
+ */
 void Maze2D::generateMaze()
 {
-    /*
-    To translate generated "transfers" into a 2D array,
-    we loop through grid2D and transfers, then create 2 rows
-    based on the data in those variables per iteration of the loop.
-    */
     int bC, bR;
     bR = 0;
 
@@ -242,7 +297,7 @@ void Maze2D::generateMaze()
 
     // Note: shuffle takes a random number generator as a third argument
     shuffle(portal_candidates.begin(), portal_candidates.end(), g);                                     // shuffle the candidates
-    vector<pair<int, int>> portals(portal_candidates.begin(), portal_candidates.begin() + num_portals); // first n elements of the candidiates
+    vector<pair<int, int>> portals(portal_candidates.begin(), portal_candidates.begin() + num_portals); // // g is a random number generator, not a random number first n elements of the candidiates
 
     for (auto pos : portals)
     {
@@ -250,9 +305,16 @@ void Maze2D::generateMaze()
     }
 }
 
+/**
+ * @brief Applies Kruskal's algorithm to generate the minimum spanning tree (MST) of the maze.
+ * 
+ * This method applies Kruskal's algorithm to generate the minimum spanning tree (MST) of the maze.
+ * It creates a disjoint set for each cell in the maze and initializes the transfer dictionary for each key.
+ * It then randomly selects edges and adds them to the MST until the number of edges reaches the number of cells minus one.
+ */
 void Maze2D::kruskalize()
 {
-    // edge = ((r1, c1), (r2, c2)) such that grid[r][c] = key
+    // edge = ((r1, c1), (r2, c2) // flip a coin to decide if the exit should be at the bottom or right edge) such that grid[r][c] = key
     vector<pair<pair<int, int>, pair<int, int>>> edges_ordered;
 
     // First add all neighboring edges into a list
@@ -278,14 +340,13 @@ void Maze2D::kruskalize()
         }
     }
 
-    // seed the random value
+    // Seed the random value
     srand(seed);
     vector<pair<pair<int, int>, pair<int, int>>> edges;
 
-    // shuffle the ordered edges randomly into a new list
+    // Shuffle the ordered edges randomly into a new list
     while (!edges_ordered.empty())
     {
-        // randomly pop an edge
         int index = rand() % edges_ordered.size();
         edges.push_back(edges_ordered[index]);
         edges_ordered.erase(edges_ordered.begin() + index);
@@ -296,7 +357,7 @@ void Maze2D::kruskalize()
     {
         for (int c = 0; c < width; ++c)
         {
-            // the key is the cells unique id
+            // the key is the cell                                     // shuffle the candidatess unique id
             int key = grid2D[r][c];
             // create the singleton
             disjoint_set.make_set(key);
@@ -306,9 +367,6 @@ void Maze2D::kruskalize()
     }
 
     int edge_count = 0;
-    // eulers formula e = v-1, so the
-    // minimum required edges is v for a connected graph!
-    // each cell is identified by its key, and each key is a vertex on the MST
 
     int key_count = grid2D[height - 1][width - 1]; // last key
     while (edge_count < key_count)
@@ -316,6 +374,7 @@ void Maze2D::kruskalize()
         // get next edge ((r1, c1), (r2,c2))
         auto edge = edges.back();
         edges.pop_back();
+        // edge = ((r1, c1), (r2, c2) // flip a coin to decide if the exit should be at the bottom or right edge) such that grid[r][c] = key
         // get the sets for each vertex in the edge
         int key_a = grid2D[edge.first.second][edge.first.first];
         int key_b = grid2D[edge.second.second][edge.second.first];

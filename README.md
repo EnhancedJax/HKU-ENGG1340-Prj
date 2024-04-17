@@ -34,9 +34,9 @@ Gameplay demo [here](https://connecthkuhk-my.sharepoint.com/:v:/g/personal/enhan
 | `State`, `lookup`        | Data structures for storing game status (e.g., arrays, STL containers)         |
 | `map2D**`, `grid2D**`    | Dynamic memory management (e.g., dynamic arrays, linked lists, STL containers) |
 | Save & load              | File input/output (e.g., for loading/saving game status)                       |
-| Yep                        | Program codes in multiple files (recall separate compilation)                  |
-| Sure                        | Proper indentation and naming styles                                           |
-| Of course                        | In-code documentation                                                          |
+| Yep                      | Program codes in multiple files (recall separate compilation)                  |
+| Sure                     | Proper indentation and naming styles                                           |
+| Of course                | In-code documentation                                                          |
 
 ## Compilation and running instructions
 
@@ -61,4 +61,4 @@ _Notes_
 
 ## Attribution
 
-- Paul Miller's [python maze generator](https://github.com/138paulmiller/PyMaze/blob/master/maze.py) for inspired our Maze2D class
+- Paul Miller's [python maze generator](https://github.com/138paulmiller/PyMaze/blob/master/maze.py) for inspiring and providing logic for our maze generation algorithm.

@@ -16,6 +16,15 @@ Loader::~Loader()
     // Destructor
 }
 
+/**
+ * @brief Loads the state from a file.
+ * 
+ * This function reads the contents of a file and returns the loaded state.
+ * If the file does not exist or cannot be opened, it displays an error message
+ * and returns an empty state.
+ * 
+ * @return The loaded state.
+ */
 State Loader::loadState()
 {
     State loadedState;
@@ -42,6 +51,16 @@ State Loader::loadState()
     return loadedState;
 }
 
+/**
+ * @brief Saves the state to a file.
+ * 
+ * This function saves the state to a file and returns the file path.
+ * If the file cannot be created or written to, it displays an error message
+ * and exits the program.
+ * 
+ * @param gameState The state to save.
+ * @return The file path.
+ */
 string Loader::saveStateToFile(State gameState)
 {
     string filePath = "../states/game_state";

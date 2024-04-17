@@ -19,6 +19,11 @@ PagedMenu::~PagedMenu()
 {
 }
 
+
+/*
+@ displaymenu is a function to print the main menu for the game
+@ user will input 'w' and 's' to choose between 'Play' , 'Load' and 'Quit'
+*/
 int PagedMenu::displayMenu()
 {
     int response = 0;           // response is defulted to 0 (Play)
@@ -26,10 +31,7 @@ int PagedMenu::displayMenu()
     int winRows = getWinRows(); // console height
 
     using namespace std;
-    string top = R"(╭──────╮)";
-    string mid = R"(│      │)";
-    string bot = R"(╰──────╯)";
-
+    
     string play = "PLAY"; // the pattern of play
     string load = "LOAD"; // the pattern of load
     string quit = "QUIT"; // the pattern of quit
@@ -45,8 +47,8 @@ x    |  _ \| |_) |  _|   / _ \ | ' / | | | | | | | |
 x    | |_) |  _ <| |___ / ___ \| . \ |_| | |_| | | |  
 x    |____/|_| \_\_____/_/   \_\_|\_\___/ \___/  |_|  )");                        // the title showed in UI
 
-    int offsetY = -4;
-    int bottonH = 3;
+    int offsetY = -4;   // varibles for adjusting the botton to be parallel
+    int bottonH = 3;    // varibles for adjusting the botton to be parallel
 
     botton(60, (winRows / 2) + offsetY, COLOR_GREEN, play);                 // botton is a function in helers.cpp which helps
     botton(60, (winRows / 2) + offsetY + bottonH, COLOR_DEFAULT, load);     // building a thin frame around the words
@@ -56,8 +58,8 @@ x    |____/|_| \_\_____/_/   \_\_|\_\___/ \___/  |_|  )");                      
 
     do
     {
-        userinput = getch();
-        switch (userinput)
+        userinput = getch();    // obtain user input
+        switch (userinput)      // different situation of userinput ( w & s )
         {
         case 'w':
             // Move up
@@ -75,17 +77,23 @@ x    |____/|_| \_\_____/_/   \_\_|\_\___/ \___/  |_|  )");                      
             break;
         }
         // Update the buttons
-        botton(60, (winRows / 2) + offsetY, (response == 0) ? COLOR_GREEN : COLOR_DEFAULT, play);
-        botton(60, (winRows / 2) + offsetY + bottonH, (response == 1) ? COLOR_YELLOW : COLOR_DEFAULT, load);
-        botton(60, (winRows / 2 + offsetY + bottonH * 2), (response == 2) ? COLOR_RED : COLOR_DEFAULT, quit);
+        botton(60, (winRows / 2) + offsetY, (response == 0) ? COLOR_GREEN : COLOR_DEFAULT, play);                  // print a 'play' botton in green when the response is 0 
+        botton(60, (winRows / 2) + offsetY + bottonH, (response == 1) ? COLOR_YELLOW : COLOR_DEFAULT, load);       // print a 'load' botton in yellow when the response is 1 
+        botton(60, (winRows / 2 + offsetY + bottonH * 2), (response == 2) ? COLOR_RED : COLOR_DEFAULT, quit);      // print a 'quit' botton in red when the response is 2
     } while (userinput != '\n');
 
     return response; // outputing the choice of player
 }
 
+
+/*
+@ WinningScreen is a function to print out the winning UI art 
+@ user will only see this when they successfully get out from the maze
+@ no input from user will be needed in this function
+*/
 void PagedMenu::WinningScreen()
 {
-    int splashSpeed = 100;
+    int splashSpeed = 100;      // 100 milliseconds          
     int winCols = getWinCols();
     int winRows = getWinRows();
 

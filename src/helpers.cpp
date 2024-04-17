@@ -136,7 +136,7 @@ void frame(int winCols, int winRows)
     cout << "╝" << endl;
 }
 /*
-    build a thin frame for the word inputed(used only for the menu "play" and "quit" botton)(not suitable for all words)
+    build a thin frame for the word inputed (used only for the menu "play" and "quit" botton) (only suitable for words in 4)
 */
 void botton(int x, int y, string colors, string s)
 {

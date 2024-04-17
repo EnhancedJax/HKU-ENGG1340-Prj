@@ -67,8 +67,8 @@ int main()
 
         if (game_result == 1) // finish
         {
-            menu.WinningScreen(); // display the winning screen
-            getch(); // press any key to continue 
+            menu.WinningScreen();   // display the winning screen
+            getch();                // press any key to continue 
 
             // Return to the main menu
             continue;

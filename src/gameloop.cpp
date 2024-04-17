@@ -151,6 +151,8 @@ int Gameloop::run(State loadedGameState)
     bool choice;             // check if player had choosen the direction of breaking wall
     bool is_writing = false; // check if the screen is writing
 
+    srand(time(NULL)); // Seed the random number generator with the current time
+
     Maze2D maze(winCols / 2 - 2, (winRows % 2 == 0 ? winRows + 1 : winRows) - 2, rand(), loadedGameState.Map2D);
     Timer timer(&is_writing, 0, winCols / 2 - 7, stod(loadedGameState.timerPausedTime));
     gameState = loadedGameState;

@@ -13,9 +13,9 @@ int main()
     // check terminal size
     int winCols = getWinCols();
     int winRows = getWinRows();
-    if (winRows < 14 || winCols < 70)
+    if (winRows < 20 || winCols < 70)
     {
-        cout << "Terminal size too small. Please resize to at least 70x14." << endl;
+        cout << "Terminal size too small. Please resize to at least WxH: 70x20." << endl;
         return 1;
     }
 

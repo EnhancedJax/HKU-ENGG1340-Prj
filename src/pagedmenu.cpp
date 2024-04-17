@@ -32,8 +32,7 @@ int PagedMenu::displayMenu()
     string quit = "QUIT"; // the pattern of quit
 
     frame(winCols, winRows); // the UI frame
-    printAt(0, (winRows / 2) - 7, R"(x
-x        _    __  __    _     ________ _   _  ____    
+    printAt(0, (winRows - 11) /2, R"(x        _    __  __    _     ________ _   _  ____    
 x       / \  |  \/  |  / \   |__  /_ _| \ | |/ ___|   
 x      / _ \ | |\/| | / _ \    / / | ||  \| | |  _    
 x     / ___ \| |  | |/ ___ \  / /_ | || |\  | |_| |   
@@ -41,10 +40,9 @@ x    /_/__ \_\_|  |_/_/   \_\/____|___|_| \_|\____|__
 x    | __ )|  _ \| ____|  / \  | |/ / _ \| | | |_   _|
 x    |  _ \| |_) |  _|   / _ \ | ' / | | | | | | | |  
 x    | |_) |  _ <| |___ / ___ \| . \ |_| | |_| | | |  
-x    |____/|_| \_\_____/_/   \_\_|\_\___/ \___/  |_|  
-x)");                        // the title showed in UI
+x    |____/|_| \_\_____/_/   \_\_|\_\___/ \___/  |_|  )");                        // the title showed in UI
 
-    int offsetY = -5;
+    int offsetY = -4;
     int bottonH = 3;
 
     botton(60, (winRows / 2) + offsetY, COLOR_GREEN, play);                 // botton is a function in helers.cpp which helps

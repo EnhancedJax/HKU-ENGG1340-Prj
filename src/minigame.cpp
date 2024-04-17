@@ -26,51 +26,45 @@ bool Minigame::countdown(int col, int row)
         bool time_out = true;
 
         int duration = 4;
-        string bar_symbol = "■ ", timer, bar;
+        int divisor = 20;
+        int prog = duration;
+        string bar_symbol = "/", timer, bar;
 
         int midcol_timer = (col - 6) / 2;
-        int midcol_bar = (col - 11) / 2;
+        int midcol_bar = (col - divisor) / 2;
 
-        for (int i = 0; i <= 4; i++) 
+        for (int i = 0; i <= divisor; i++)
         {
-
-                if (duration - i > 9)
-                {
-                        timer = "> " + to_string(duration - i) + " <";
-                }
-                else
-                {
-                        timer = "> 0" + to_string(duration - i) + " <";
-                }
+                prog = duration - i * duration / divisor;
+                timer = "> " + to_string(prog) + " <";
                 printAt(midcol_timer, 2, timer);
 
                 bar = "";
-                for (int j = 0; j <= duration-i; j++) 
+                for (int j = 0; j <= divisor; j++)
                 {
-                        if (j == duration -i)
+                        if (j <= i)
                         {
-                                break;
+                                bar += " ";
                         }
                         else
                         {
-                                bar += bar_symbol + " ";
+                                bar += bar_symbol;
                         }
                 }
                 printAt(midcol_bar, 1, bar);
-                
 
-                this_thread::sleep_for(chrono::seconds(1));
+                this_thread::sleep_for(chrono::milliseconds(1000 * duration / divisor));
 
-                if (stopCountdown==true)
+                if (stopCountdown == true)
                 {
-                        time_out=false;
+                        time_out = false;
                         return true;
                         break;
                 }
                 printAt(midcol_bar, 1, "           ");
         }
 
-        if (time_out==true) 
+        if (time_out == true)
         {
                 stop_direction = true;
 
@@ -80,7 +74,7 @@ bool Minigame::countdown(int col, int row)
 
                 this_thread::sleep_for(chrono::seconds(1));
                 return false;
-        } 
+        }
 }
 
 bool Minigame::direction()
@@ -102,14 +96,10 @@ bool Minigame::direction()
                 arr[i] = number;
         };
 
-        // string quote = "Enter the corresponding arrow (wasd)";
-        // int midcol_quote = (col-quote.size())/2;
-        // printAt(midcol_quote, midrow+4, quote);
-
         printAt(midcol, midrow, "╭───╮  ╭───╮  ╭───╮  ╭───╮  ╭───╮  ╭───╮");
-        this_thread::sleep_for(chrono::milliseconds(200));
+        this_thread::sleep_for(chrono::milliseconds(100));
         printAt(midcol, midrow + 1, "│ " + arrows[arr[0]] + " │  │ " + arrows[arr[1]] + " │  │ " + arrows[arr[2]] + " │  │ " + arrows[arr[3]] + " │  │ " + arrows[arr[4]] + " │  │ " + arrows[arr[5]] + " │");
-        this_thread::sleep_for(chrono::milliseconds(200));
+        this_thread::sleep_for(chrono::milliseconds(100));
         printAt(midcol, midrow + 2, "╰───╯  ╰───╯  ╰───╯  ╰───╯  ╰───╯  ╰───╯");
 
         for (int i = 0; i < 6; ++i)
@@ -164,7 +154,7 @@ bool Minigame::direction()
                         printAt(midcol, midrow + 2, "╰───╯  ╰───╯  ╰───╯  ╰───╯  ╰───╯  ╰───╯");
                         if (i == 5)
                         {
-                                stopCountdown=true;
+                                stopCountdown = true;
                                 return true;
                         }
                 }
@@ -179,29 +169,22 @@ bool Minigame::run()
 
         frame(winCols, winRows);
 
-        /* string quote = "Press any key to start"; // start screen //
-        int mid_col = (winCols - quote.size()) / 2;
-        int mid_row = (winRows - 1) / 2;
-        printAt(mid_col, mid_row, quote);
-
-        printAt(mid_col, mid_row, "                      "); */
-
-
         bool result;
+
         bool countdown_result = true; // allow countdown function and the game run at the same time using thread //
         thread countdown_thread([&]()
                                 { countdown_result = countdown(winCols, winRows); });
-
         result = direction();
+
         countdown_thread.join();
 
         if (result)
         { // win situation //
-                int midrow = (winRows - 5) / 2;
                 string quote = "            Wohoooo nice!            ";
-                this_thread::sleep_for(chrono::seconds(1));
+                int midrow = (winRows - 5) / 2;
                 int midcol_quote = (winCols - quote.size()) / 2;
                 printAt(midcol_quote, midrow + 4, quote);
+                this_thread::sleep_for(chrono::seconds(1));
                 return 1;
         }
         else if (countdown_result == false || result == false)
@@ -212,7 +195,7 @@ bool Minigame::run()
         return 0;
 }
 
-/* 
+/*
      __
     '. \
      '- \
@@ -230,8 +213,8 @@ bool Minigame::run()
        \), .. .'OOO-'. ..'OOO'OOO-'. ..\(,
 */
 
-/* 
-string cartoon 
+/*
+string cartoon
 string bubble = "follow my steps!"
 
 */
@@ -255,7 +238,7 @@ string bubble = "follow my steps!"
                     '"""         '"""  '"""              '"""    '"""'""
 */
 
-/* 
+/*
                       /^--^\     /^--^\     /^--^\
                       \____/     \____/     \____/
                      /      \   /      \   /      \

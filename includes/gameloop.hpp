@@ -36,6 +36,7 @@ class Gameloop
     vector<int> resolvelist;
     vector<int> checkwall(char playerinput, int* position, int** themap, int width, int height, string detector);
     bool intersection(int pos_x, int pos_y, int **themap, bool the_first_move);
+    int getintoMinigame();
 public:
     State gameState;
     Loader loader; // initialize loader for writing to file

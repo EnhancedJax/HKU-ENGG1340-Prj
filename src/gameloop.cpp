@@ -231,7 +231,7 @@ int Gameloop::run(State loadedGameState)
                     int minigame_result = Minigame().run();
                     clearScreen();
                     maze.printMap();
-                    if (minigame_result == 1)
+                    if (minigame_result == 1) 
                     {
                         // win can get ability to break the wall
                         char playerinput = getch(); // the direction of breaking
@@ -280,7 +280,7 @@ int Gameloop::run(State loadedGameState)
                                 for (int i = 1; i <= resolvelist.size(); i++)
                                 { //
                                     is_writing = true;
-                                    this_thread::sleep_for(chrono::milliseconds(1));
+                                    this_thread::sleep_for(chrono::milliseconds(1)); 
                                     printAt(2 * (gameState.position[1] + i * lookup[playerinput2][0]), gameState.position[0] + i * lookup[playerinput2][1], maze.glyphs[resolvelist[i - 1]]);
                                     is_writing = false;
                                 }

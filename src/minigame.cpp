@@ -68,6 +68,19 @@ bool Minigame::countdown(int col, int row)
 
         if (time_out == true)
         {
+                string quote = "           Oops! Time's out           ";
+
+                int midrow_quote = (row - 5) / 2;
+                int midcol_quote = (col - quote.size()) / 2;
+                printAt(midcol_quote, midrow_quote + 4, quote);
+
+                this_thread::sleep_for(chrono::seconds(2));
+
+                string quote1 = "press any button to continue";
+                int midcol_quote1 = (col - quote1.size())/2;
+                int midrow_quote1 = (row - 1)/2;
+                printAt(midcol_quote1,midrow_quote1+5,quote1);
+
                 stop_direction = true;
                 return false;
         }
@@ -131,8 +144,12 @@ bool Minigame::direction()
         string output[10] = {arrows[arr[0]], arrows[arr[1]], arrows[arr[2]], arrows[arr[3]], arrows[arr[4]], arrows[arr[5]]};
 
         for (int i = 0; i < 6; i++)
-        { // check user's answer one by one //
+        { 
+
+                // check user's answer one by one //   
+
                 char input = getch();
+
                 if (input != answer[i] && stop_direction == false)
                 { // if user's input is wrong //
                         stopCountdown = true;
@@ -154,7 +171,10 @@ bool Minigame::direction()
                                 stopCountdown = true;
                                 return true;
                         }
+                } else if (stop_direction == true) {
+                        return false;
                 }
+
         }
         return false;
 }
@@ -177,7 +197,10 @@ bool Minigame::run()
 
         string quote;
         int retrn = 0;
-        if (result == 1) // win
+        if (stop_direction == true) {
+                quote = "           Oops! Time's out           ";
+        }
+        else if (result == 1) // win
         { 
                 quote = "            Wohoooo nice!            ";
                 retrn = 1;

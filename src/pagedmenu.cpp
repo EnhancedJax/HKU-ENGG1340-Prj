@@ -31,7 +31,7 @@ int PagedMenu::displayMenu()
     int winRows = getWinRows(); // console height
 
     using namespace std;
-    
+
     string play = "PLAY"; // the pattern of play
     string load = "LOAD"; // the pattern of load
     string quit = "QUIT"; // the pattern of quit
@@ -80,7 +80,7 @@ x    |____/|_| \_\_____/_/   \_\_|\_\___/ \___/  |_|  )");                      
         botton(60, (winRows / 2) + offsetY, (response == 0) ? COLOR_GREEN : COLOR_DEFAULT, play);                  // print a 'play' botton in green when the response is 0 
         botton(60, (winRows / 2) + offsetY + bottonH, (response == 1) ? COLOR_YELLOW : COLOR_DEFAULT, load);       // print a 'load' botton in yellow when the response is 1 
         botton(60, (winRows / 2 + offsetY + bottonH * 2), (response == 2) ? COLOR_RED : COLOR_DEFAULT, quit);      // print a 'quit' botton in red when the response is 2
-    } while (userinput != '\n');
+    } while (userinput != '\n');    // stop the choosing process and confirm the player choice with "enter" being inputed
 
     return response; // outputing the choice of player
 }

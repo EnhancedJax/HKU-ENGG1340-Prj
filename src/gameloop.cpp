@@ -197,8 +197,8 @@ int Gameloop::getintoMinigame()
 int Gameloop::run(State loadedGameState)
 {
 
-    int winCols = getWinCols();
-    int winRows = getWinRows();
+    int winCols = getWinCols(); // size of window cols 
+    int winRows = getWinRows(); // size of window rows
     bool the_first_move;     // check if player had moved since key pressed
     bool choice;             // check if player had choosen the direction of breaking wall
     bool is_writing = false; // check if the screen is writing

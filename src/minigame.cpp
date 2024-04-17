@@ -33,6 +33,8 @@ bool Minigame::countdown(int col, int row)
         int midcol_timer = (col - 6) / 2;
         int midcol_bar = (col - divisor) / 2;
 
+        this_thread::sleep_for(chrono::milliseconds(500));
+
         for (int i = 0; i <= divisor; i++)
         {
                 prog = duration - i * duration / divisor;
@@ -67,12 +69,6 @@ bool Minigame::countdown(int col, int row)
         if (time_out == true)
         {
                 stop_direction = true;
-
-                string quote = "   Oops! Time's out   ";
-                int midcol_quote = (col - quote.size()) / 2;
-                printAt(midcol_quote, 1, quote);
-
-                this_thread::sleep_for(chrono::seconds(1));
                 return false;
         }
 }
@@ -140,10 +136,11 @@ bool Minigame::direction()
                 if (input != answer[i] && stop_direction == false)
                 { // if user's input is wrong //
                         stopCountdown = true;
-                        string quote = "         Oops! Wrong input :(         ";
-                        int midcol_quote = (col - quote.size()) / 2;
-                        printAt(midcol_quote, midrow + 4, quote);
-                        this_thread::sleep_for(chrono::seconds(1));
+                        output[i] = "✘";
+                        printAt(midcol, midrow, "╭───╮  ╭───╮  ╭───╮  ╭───╮  ╭───╮  ╭───╮");
+                        printAt(midcol, midrow + 1, "│ " + output[0] + " │  │ " + output[1] + " │  │ " + output[2] + " │  │ " + output[3] + " │  │ " + output[4] + " │  │ " + output[5] + " │");
+                        printAt(midcol, midrow + 2, "╰───╯  ╰───╯  ╰───╯  ╰───╯  ╰───╯  ╰───╯");
+                        
                         return false;
                 }
                 else if (input == answer[i] && stop_direction == false)
@@ -178,19 +175,23 @@ bool Minigame::run()
 
         countdown_thread.join();
 
-        if (result)
-        { // win situation //
-                string quote = "            Wohoooo nice!            ";
-                int midrow = (winRows - 5) / 2;
-                int midcol_quote = (winCols - quote.size()) / 2;
-                printAt(midcol_quote, midrow + 4, quote);
-                this_thread::sleep_for(chrono::seconds(1));
-                return 1;
+        string quote;
+        int retrn = 0;
+        if (result == 1) // win
+        { 
+                quote = "            Wohoooo nice!            ";
+                retrn = 1;
         }
-        else if (countdown_result == false || result == false)
-        { // lose situation //
-                return 0;
+        else if (result == 0) // wrong key
+        { 
+                quote = "         Oops! Wrong input :(         ";
+        } else if (countdown_result == false) { 
+                quote = "           Oops! Time's out           ";
         }
+        int midrow = (winRows - 5) / 2;
+        int midcol_quote = (winCols - quote.size()) / 2;
+        printAt(midcol_quote, midrow + 4, quote);
+        this_thread::sleep_for(chrono::seconds(1));
 
         return 0;
 }

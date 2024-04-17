@@ -1,6 +1,9 @@
 #include "pagedmenu.hpp"
 #include "helpers.hpp"
 #include "colors.hpp"
+#include "loader.hpp"
+#include <chrono>
+#include <thread>
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -78,4 +81,47 @@ x    |____/|_| \_\_____/_/   \_\_|\_\___/ \___/  |_|  )");                      
     } while (userinput != '\n');
 
     return response; // outputing the choice of player
+}
+
+void PagedMenu::WinningScreen()
+{
+    int splashSpeed = 100;
+    int winCols = getWinCols();
+    int winRows = getWinRows();
+
+    frame(winCols, winRows); // UI frame
+            this_thread::sleep_for(chrono::milliseconds(splashSpeed));
+            printAt((winCols - 90) / 2, (winRows - 9) / 2, " _______   _______   ________   ______   __    __         ______   __    __  ________  __ ");
+            this_thread::sleep_for(chrono::milliseconds(splashSpeed));
+            printAt((winCols - 90) / 2, (winRows - 9) / 2 + 1, "/       \\ /       \\ /        | /      \\ /  |  /  |       /      \\ /  |  /  |/        |/  |");
+            this_thread::sleep_for(chrono::milliseconds(splashSpeed));
+            printAt((winCols - 90) / 2, (winRows - 9) / 2 + 2, "$$$$$$$  |$$$$$$$  |$$$$$$$$/ /$$$$$$  |$$ | /$$/       /$$$$$$  |$$ |  $$ |$$$$$$$$/ $$ |");
+            this_thread::sleep_for(chrono::milliseconds(splashSpeed));
+            printAt((winCols - 90) / 2, (winRows - 9) / 2 + 3, "$$ |__$$ |$$ |__$$ |$$ |__    $$ |__$$ |$$ |/$$/        $$ |  $$ |$$ |  $$ |   $$ |   $$ |");
+            this_thread::sleep_for(chrono::milliseconds(splashSpeed));
+            printAt((winCols - 90) / 2, (winRows - 9) / 2 + 4, "$$    $$< $$    $$< $$    |   $$    $$ |$$  $$<         $$ |  $$ |$$ |  $$ |   $$ |   $$ |");
+            this_thread::sleep_for(chrono::milliseconds(splashSpeed));
+            printAt((winCols - 90) / 2, (winRows - 9) / 2 + 5, "$$$$$$$  |$$$$$$$  |$$$$$/    $$$$$$$$ |$$$$$  \\        $$ |  $$ |$$ |  $$ |   $$ |   $$/ ");
+            this_thread::sleep_for(chrono::milliseconds(splashSpeed));
+            printAt((winCols - 90) / 2, (winRows - 9) / 2 + 6, "$$ |__$$ |$$ |  $$ |$$ |_____ $$ |  $$ |$$ |$$  \\       $$ \\__$$ |$$ \\__$$ |   $$ |    __ ");
+            this_thread::sleep_for(chrono::milliseconds(splashSpeed));
+            printAt((winCols - 90) / 2, (winRows - 9) / 2 + 7, "$$    $$/ $$ |  $$ |$$       |$$ |  $$ |$$ | $$  |      $$    $$/ $$    $$/    $$ |   /  |");
+            this_thread::sleep_for(chrono::milliseconds(splashSpeed));
+            printAt((winCols - 90) / 2, (winRows - 9) / 2 + 8, "$$$$$$$/  $$/   $$/ $$$$$$$$/ $$/   $$/ $$/   $$/        $$$$$$/   $$$$$$/     $$/    $$/ ");
+            this_thread::sleep_for(chrono::milliseconds(splashSpeed));
+
+    /* WINNING SCREEN ART 
+
+    " _______    _______    ________   ______    __    __         ______   __    __  ________  __ "
+    "/       \\ /       \\ /        | /      \\ /  |  /  |      /      \\ /  |  /  |/        |/  |"
+    "$$$$$$$  |$$$$$$$  |$$$$$$$$/ /$$$$$$  |$$ | /$$/       /$$$$$$    |$$ |   $$ |$$$$$$$$/ $$ |"
+    "$$ |__$$ |$$ |__$$ |$$ |__    $$ |__$$ |$$ |/$$/        $$ |   $$  |$$ |   $$ |   $$ |   $$ |"
+    "$$    $$< $$    $$< $$    |   $$    $$ |$$  $$<         $$ |   $$  |$$ |   $$ |   $$ |   $$ |"
+    "$$$$$$$  |$$$$$$$  |$$$$$/    $$$$$$$$ |$$$$$  \\       $$ |   $$  |$$ |   $$ |   $$ |   $$/ "
+    "$$ |__$$ |$$ |  $$ |$$ |_____ $$ |  $$ |$$ |$$  \\      $$ \\__$$|  $$ \\__$$ |   $$ |    __ "
+    "$$    $$/ $$ |  $$ |$$       |$$ |  $$ |$$ | $$  |      $$    $$/   $$    $$/     $$ |   /  |"
+    "$$$$$$$/  $$/   $$/ $$$$$$$$/ $$/   $$/ $$/   $$/        $$$$$$/     $$$$$$/      $$/    $$/ "
+
+    */
+
 }

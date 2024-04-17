@@ -4,6 +4,9 @@
 #include <termios.h>
 #include <sys/ioctl.h>
 #include <unistd.h>
+#include <fcntl.h>
+#include <sys/select.h>
+
 using namespace std;
 
 void cursorHide()
@@ -66,6 +69,47 @@ char getch()
     // set the stdin settings back to before raw modification
     tcsetattr(file_desc, TCSANOW, &old_settings);
     return ch;
+}
+
+char getch_emptyinput()
+{
+    // get stdin file descriptor
+    int file_desc = STDIN_FILENO;
+    // get stdin file settings
+    struct termios old_settings, new_settings;
+    tcgetattr(file_desc, &old_settings);
+    new_settings = old_settings;
+    // modifies settings
+    new_settings.c_lflag &= ~(ICANON | ECHO);
+    tcsetattr(file_desc, TCSANOW, &new_settings);
+
+    // set up the file descriptor set for select()
+    fd_set readfds;
+    FD_ZERO(&readfds);
+    FD_SET(file_desc, &readfds);
+
+    // set up the timeout struct for select() 
+    struct timeval timeout;
+    timeout.tv_sec = 4;
+    timeout.tv_usec = 0;
+
+    // wait until input is available or timeout occurs
+    int ready = select(file_desc + 1, &readfds, NULL, NULL, &timeout);
+
+    // check if input is avaiable
+    if (ready == 1 && FD_ISSET(file_desc, &readfds)) 
+    {
+        char ch;
+        read(file_desc, &ch, 1);
+
+        tcsetattr(file_desc, TCSANOW, &old_settings);
+        return ch;
+    } else 
+    {
+        tcsetattr(file_desc, TCSANOW, &old_settings);
+        return '\0';
+    }
+
 }
 
 /*

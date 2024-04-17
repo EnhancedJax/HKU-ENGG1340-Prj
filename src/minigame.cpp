@@ -74,12 +74,7 @@ bool Minigame::countdown(int col, int row)
                 int midcol_quote = (col - quote.size()) / 2;
                 printAt(midcol_quote, midrow_quote + 4, quote);
 
-                this_thread::sleep_for(chrono::seconds(2));
-
-                string quote1 = "press any button to continue";
-                int midcol_quote1 = (col - quote1.size())/2;
-                int midrow_quote1 = (row - 1)/2;
-                printAt(midcol_quote1,midrow_quote1+5,quote1);
+                this_thread::sleep_for(chrono::seconds(1));
 
                 stop_direction = true;
                 return false;
@@ -144,11 +139,18 @@ bool Minigame::direction()
         string output[10] = {arrows[arr[0]], arrows[arr[1]], arrows[arr[2]], arrows[arr[3]], arrows[arr[4]], arrows[arr[5]]};
 
         for (int i = 0; i < 6; i++)
-        { 
+        { // check user's answer one by one //   
+                char input = getch_emptyinput();
+                
+                if (input != '\0') 
+                {
+                        continue;
+                } else if (input == '\0')
+                {
+                        stop_direction=true;
+                        return false;
+                }
 
-                // check user's answer one by one //   
-
-                char input = getch();
 
                 if (input != answer[i] && stop_direction == false)
                 { // if user's input is wrong //
@@ -197,20 +199,21 @@ bool Minigame::run()
 
         string quote;
         int retrn = 0;
-        if (stop_direction == true) {
-                quote = "           Oops! Time's out           ";
-        }
-        else if (result == 1) // win
+        if (result == 1) // win
         { 
                 quote = "            Wohoooo nice!            ";
                 retrn = 1;
-        }
-        else if (result == 0) // wrong key
-        { 
+        } else if (stop_direction == true) {
+                
+        } 
+        else if (result == 0) { 
                 quote = "         Oops! Wrong input :(         ";
-        } else if (countdown_result == false) { 
+        }
+        else if (countdown_result == false) // wrong key
+        { 
                 quote = "           Oops! Time's out           ";
         }
+
         int midrow = (winRows - 5) / 2;
         int midcol_quote = (winCols - quote.size()) / 2;
         printAt(midcol_quote, midrow + 4, quote);

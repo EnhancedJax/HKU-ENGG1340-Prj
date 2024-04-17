@@ -11,6 +11,7 @@ void clearScreen();
 int getWinRows();
 int getWinCols();
 char getch();
+char getch_emptyinput();
 void toggleEcho();
 void frame(int winCols, int winRows);
 void botton(int x, int y, std::string, std::string );

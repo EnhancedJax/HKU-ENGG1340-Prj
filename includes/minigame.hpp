@@ -11,6 +11,7 @@ public:
     bool stopCountdown=false;
     bool stop_direction=false;
     bool direction();
+    char readinput();
 };
 
 #endif 

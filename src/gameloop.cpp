@@ -170,6 +170,7 @@ int Gameloop::run(State loadedGameState)
         if (input == 'q')
         {
             timer.stop();
+            clearScreen();
             return 3;
         }
 
@@ -211,7 +212,8 @@ int Gameloop::run(State loadedGameState)
                 if (maze.map2D[gameState.position[0]][gameState.position[1]] == 2)
                 {
                     timer.stop();
-                    return 0;
+                    clearScreen();
+                    return 1;
                 }
 
                 // start the minigame when the player arrive to the "function"
@@ -226,7 +228,8 @@ int Gameloop::run(State loadedGameState)
                     timer.pause();
                     clearScreen();
                     int minigame_result = Minigame().run();
-                    cout << "minigame_result: " << minigame_result << endl;
+                    clearScreen();
+                    maze.printMap();
                     if (minigame_result == 1)
                     {
                         // win can get ability to break the wall

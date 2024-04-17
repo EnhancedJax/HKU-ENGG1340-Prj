@@ -193,7 +193,7 @@ bool Minigame::run()
         printAt(midcol_quote, midrow + 4, quote);
         this_thread::sleep_for(chrono::seconds(1));
 
-        return 0;
+        return retrn;
 }
 
 /*

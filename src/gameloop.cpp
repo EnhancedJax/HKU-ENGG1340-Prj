@@ -172,9 +172,7 @@ int Gameloop::run(State loadedGameState)
             timer.stop();
             clearScreen();
             return 3;
-        }
-
-        if (input == 'p')
+        } else if (input == 'p')
         {
             gameState.timerPausedTime = timer.stop();
             gameState.Map2D = maze.map2D;
@@ -189,6 +187,9 @@ int Gameloop::run(State loadedGameState)
             printAt(winCols / 2 - m.length() / 2, winRows / 2, m);
             getch();
             return 2;
+        } else if ( input != 'w' && input != 'a' && input != 's' && input != 'd' )
+        {
+            continue;
         }
 
         while (intersection(gameState.position[1], gameState.position[0], maze.map2D, the_first_move))

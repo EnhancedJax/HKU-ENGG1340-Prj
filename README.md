@@ -4,6 +4,8 @@ A simple maze game. Oh also you can break walls. Oh and it's as big as your term
 
 <img width="763" alt="image" src="https://github.com/EnhancedJax/HKU-ENGG1340-Prj/assets/80020581/843d6f7d-119b-4ae4-ae88-b9cc9331c6c3">
 
+Gameplay demo [here](https://connecthkuhk-my.sharepoint.com/:v:/g/personal/enhanjax_connect_hku_hk/EYksp2tpznBNp7xgifFYfiEB93MZzN7DHTvgsQctzYIcEQ?nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJPbmVEcml2ZUZvckJ1c2luZXNzIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXciLCJyZWZlcnJhbFZpZXciOiJNeUZpbGVzTGlua0NvcHkifX0&e=cKgLle)!
+
 ## Features
 
 - Randomly generated maze, the size of your terminal

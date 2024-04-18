@@ -25,8 +25,8 @@ bool Minigame::countdown(int col, int row)
 
         bool time_out = true;
 
-        int duration = 4;
-        int divisor = 20;
+        int duration = 3;
+        int divisor = 25;
         int prog = duration;
         string bar_symbol = "/", timer, bar;
 

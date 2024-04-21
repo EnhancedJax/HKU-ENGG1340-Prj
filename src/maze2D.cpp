@@ -48,11 +48,11 @@ Maze2D::Maze2D(int theWidth, int theHeight, int theSeed, int **theMap2D = nullpt
 
     // Set up glyphs for different elements in the maze
     glyphs = {
-        {9, COLOR_BLUE + "██" + COLOR_DEFAULT},                            // player
-        {8, COLOR_BRIGHT_GARY + "██" + COLOR_DEFAULT},                     // tail
-        {1, "  "},                                                         // space
-        {0, "██"},                                                         // wall
-        {2, COLOR_YELLOW + "⟋⟋" + COLOR_DEFAULT},                          // end
+        {9, COLOR_BLUE + "██" + COLOR_DEFAULT},                              // player
+        {8, COLOR_BRIGHT_GARY + "██" + COLOR_DEFAULT},                       // tail
+        {1, "  "},                                                           // space
+        {0, "██"},                                                           // wall
+        {2, COLOR_YELLOW + "⟋⟋" + COLOR_DEFAULT},                           // end
         {3, COLOR_BG_BRIGHT_MAGENTA + COLOR_WHITE + "❂❂" + COLOR_DEFAULT}, // portal
         {5, COLOR_RED + "██"},
     };

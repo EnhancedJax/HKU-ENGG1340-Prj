@@ -11,19 +11,20 @@ using namespace std;
 
 void cursorHide()
 {
-    cout << "\033[?25l";
+    cout << "\033[?25l";   // Hide the cursor
 }
 
 void cursorShow()
 {
-    cout << "\033[?25h";
+    cout << "\033[?25h";    // Show the cursor
 }
 
 /*
-    Print a string at a specific position on the terminal
-    x: x coordinate
-    y: y coordinate
-    s: string to print
+    @printAt is a function to print a string at a specific position on the terminal
+    @Parameters of the function:
+        x: x-coordinate(horizontal)
+        y: y-coordinate(vertical)
+        s: string to print
 */
 void printAt(int x, int y, string s)
 {
@@ -49,24 +50,28 @@ void clearScreen()
 }
 
 /*
-    Get a single character from stdin without waiting for enter, by changing the terminal settings
+    Reads a single character from stdin without waiting for enter, by changing the terminal settings
     Returns the character read
 */
 char getch()
 {
     // get stdin file descriptor
     int file_desc = STDIN_FILENO;
+
     // get stdin file settings
     struct termios old_settings, new_settings;
     tcgetattr(file_desc, &old_settings);
     new_settings = old_settings;
-    // modifies settings
+
+    // Modifies settings to disable canonical mode and disable echo
     new_settings.c_lflag &= ~(ICANON | ECHO);
     tcsetattr(file_desc, TCSANOW, &new_settings);
-    // read a single byte
+
+    // Read a single byte
     char ch;
     read(file_desc, &ch, 1);
-    // set the stdin settings back to before raw modification
+
+    // Restore the original stdin settings
     tcsetattr(file_desc, TCSANOW, &old_settings);
     return ch;
 }
@@ -75,10 +80,12 @@ char getch_emptyinput()
 {
     // get stdin file descriptor
     int file_desc = STDIN_FILENO;
+
     // get stdin file settings
     struct termios old_settings, new_settings;
     tcgetattr(file_desc, &old_settings);
     new_settings = old_settings;
+
     // modifies settings
     new_settings.c_lflag &= ~(ICANON | ECHO);
     tcsetattr(file_desc, TCSANOW, &new_settings);
@@ -113,7 +120,7 @@ char getch_emptyinput()
 }
 
 /*
-    Toggle the echo of the terminal
+    toggles echo of the terminal
 */
 void toggleEcho()
 {
@@ -123,6 +130,7 @@ void toggleEcho()
     struct termios old_settings, new_settings;
     tcgetattr(file_desc, &old_settings);
     new_settings = old_settings;
+    
     // modifies settings
     new_settings.c_lflag ^= ECHO;
     tcsetattr(file_desc, TCSANOW, &new_settings);
@@ -199,10 +207,9 @@ void botton(int x, int y, string colors, string s)
     printAt(x - 2, y + 1, colors + bot);
 }
 
-    /*
-    Example:
-            ╭──────╮
-            │ PLAY │
-            ╰──────╯
-    */
+/* BUTTON EXAMPLE
+    ╭──────╮
+    │ PLAY │
+    ╰──────╯
+*/
 

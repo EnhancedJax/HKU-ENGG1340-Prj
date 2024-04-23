@@ -213,16 +213,16 @@ int Gameloop::run(State loadedGameState)
             gameState.winCols = winCols;                           // the terminal window column
             gameState.winRows = winRows;                           // the terminal window row
             string savedTo = loader.saveStateToFile(gameState);    
-            clearScreen();
-            frame(winCols, winRows);
+            clearScreen();                                                              // clean up the screen
+            frame(winCols, winRows);                                                    // print the UI frame
             string m = "Game saved to " + savedTo + ". Press any key to continue.";
-            printAt(winCols / 2 - m.length() / 2, winRows / 2, m);
+            printAt(winCols / 2 - m.length() / 2, winRows / 2, m);                      // print the successfully save message to the player at the center of the UI
             getch();
             return 2;
-        } else if ( input != 'w' && input != 'a' && input != 's' && input != 'd' )
+        } else if ( input != 'w' && input != 'a' && input != 's' && input != 'd' )      // when player input is invaild or unwanted
         {
             // prevent the miss clicking while playing the maze
-            continue;
+            continue;                                                                   // ignore the button being pressed
         }
 
         while (intersection(gameState.position[1], gameState.position[0], maze.map2D, the_first_move))

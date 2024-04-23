@@ -52,8 +52,8 @@ int main()
             if (loadedState.Map2D == nullptr) // Invalid game state loaded
             {
                 string m = "Loaded file is not a state. Try saving a game by hitting P in-game.";
-                printAt(winCols / 2 - m.length() / 2, winRows / 2, m);
-                getch();
+                printAt(winCols / 2 - m.length() / 2, winRows / 2, m);                              // print the message of no current save to the player
+                getch();                                                                            // wait player to enter any enter to go back to the menu
                 continue;
             }
 
@@ -65,7 +65,7 @@ int main()
             else // Terminal size mismatch
             {
                 string m = "Loaded game's map size does not match terminal. Please resize terminal to " + to_string(loadedState.winCols) + "x" + to_string(loadedState.winRows);
-                printAt(winCols / 2 - m.length() / 2, winRows / 2, m);
+                printAt(winCols / 2 - m.length() / 2, winRows / 2, m);                          // print the failed load message to the player 
                 getch();
             }
         }

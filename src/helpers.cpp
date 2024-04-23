@@ -193,9 +193,20 @@ void frame(int winCols, int winRows) // input current size of console
     //
 }
 /*
+UI Example:
+╔═════════════════════════╗
+║                         ║
+║      SCREEN OUTPUT      ║
+║                         ║
+║                         ║
+║                         ║
+╚═════════════════════════╝
+
+*/
+/*
     build a thin frame for the word inputed (used only for the menu botton) (only suitable for words in 4)
 */
-void botton(int x, int y, string colors, string s)
+void botton(int x, int y, string colors, string s) // input x-coor,y-coor, color to be wanted, words to be ouput
 {
     string top = R"(╭──────╮)";
     string mid = R"(│      │)";
